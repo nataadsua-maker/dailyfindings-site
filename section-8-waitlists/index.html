@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Section 8 Waitlists Opened Without Warning</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Prompt', sans-serif;
+    }
+
+    body {
+      background: #2a2a2a;
+      min-height: 100vh;
+    }
+
+    /* Mobile frame for preview */
+    .mobile-frame {
+      width: 390px;
+      max-width: 100%;
+      margin: 0 auto;
+      background: #ffffff;
+      min-height: 100vh;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Top black bar with expiration */
+    .expires-bar {
+      background: #000000;
+      color: #ffffff;
+      text-align: center;
+      padding: 14px 12px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    /* Title section */
+    .title-section {
+      background: #ffffff;
+      padding: 18px 16px 14px;
+      text-align: center;
+    }
+
+    .title-section h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a1a1a;
+      line-height: 1.3;
+    }
+
+    /* Hero image */
+    .hero-image {
+      width: 100%;
+      display: block;
+    }
+
+    /* CTA section */
+    .cta-section {
+      background: #ffffff;
+      padding: 20px 16px 26px;
+      text-align: center;
+    }
+
+    .cta-section .subtitle {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .apply-button {
+      display: block;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #4cd964 0%, #34c759 50%, #2eb84e 100%);
+      color: #000000;
+      text-align: center;
+      padding: 18px 12px;
+      border-radius: 40px;
+      font-size: 26px;
+      font-weight: 800;
+      text-decoration: none;
+      text-transform: uppercase;
+      box-shadow: 0 4px 0 #1f8a3a, 0 6px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.1s, box-shadow 0.1s;
+      letter-spacing: 0.5px;
+    }
+
+    .apply-button:hover {
+      transform: translateY(1px);
+      box-shadow: 0 3px 0 #1f8a3a, 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .apply-button:active {
+      transform: translateY(4px);
+      box-shadow: 0 0 0 #1f8a3a, 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .apply-button .icon {
+      margin-right: 6px;
+      font-size: 22px;
+    }
+
+    /* Footer */
+    .footer {
+      background: #4a4a4a;
+      color: #ffffff;
+      text-align: center;
+      padding: 22px 16px;
+    }
+
+    .footer a {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 0;
+      font-weight: 400;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<div class="mobile-frame">
+<!-- TOP BLACK BAR -->
+<div class="expires-bar" id="expires-bar">
+      EXPIRES MAY 28, 2026
+    </div>
+<!-- TITLE -->
+<div class="title-section">
+<h1>Section 8 Waitlists Opened<br/>Without Warning</h1>
+</div>
+<!-- HERO IMAGE -->
+<img alt="Modern house with apply form" class="hero-image" src="https://i.ibb.co/wh29CrGx/2026-05-27-19-36-15.jpg"/>
+<!-- CTA SECTION -->
+<div class="cta-section">
+<p class="subtitle">Apply In Your Area<br/>Before The Listings<br/>Close Again.</p>
+<a class="apply-button" href="https://track.yrsdfy.space/cf/click" rel="nofollow noopener">
+<span class="icon">🔎</span>APPLY NOW!
+      </a>
+</div>
+<!-- FOOTER -->
+<div class="footer">
+<a href="#">Privacy Policy</a>
+<a href="#">Terms &amp; Conditions</a>
+</div>
+</div>
+<!-- AUTO-UPDATING "EXPIRES TOMORROW" DATE -->
+<script>
+    (function () {
+      var months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+                    'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+      var tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      var dateString = 'EXPIRES ' + months[tomorrow.getMonth()] + ' ' +
+                       tomorrow.getDate() + ', ' + tomorrow.getFullYear();
+      var bar = document.getElementById('expires-bar');
+      if (bar) bar.textContent = dateString;
+    })();
+  </script>
+<!-- Подменяет CF-макросы {City} {State} {Date} в текстах ленда из query string.
+     CF добавляет ?city=Seattle&state=WA&date=23.05 при редиректе с campaign URL. -->
+<script>
+(function() {
+  var p = new URLSearchParams(location.search);
+  var d = new Date();
+  var date = (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear();
+  var m = {
+    '{city}':   p.get('city')   || p.get('City')   || '',
+    '{City}':   p.get('city')   || p.get('City')   || '',
+    '{CITY}':   (p.get('city')  || p.get('City')   || '').toUpperCase(),
+    '{state}':  p.get('state')  || p.get('State')  || '',
+    '{State}':  p.get('state')  || p.get('State')  || '',
+    '{STATE}':  (p.get('state') || p.get('State')  || '').toUpperCase(),
+    '{date}':   p.get('date')   || date,
+    '{Date}':   p.get('date')   || date,
+    '{zip}':    p.get('zip')    || '',
+    '{country}': p.get('country') || ''
+  };
+  var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  var n;
+  while ((n = w.nextNode())) {
+    var t = n.nodeValue, changed = false;
+    for (var k in m) {
+      if (m[k] && t.indexOf(k) !== -1) { t = t.split(k).join(m[k]); changed = true; }
+    }
+    if (changed) n.nodeValue = t;
+  }
+})();
+</script>
+<!-- ClickFlare lander tracking script. Вставляется перед </body> в каждый новый ленд.
+     Достан с её рабочего ленда info.loylty.site/n_fdsasnt 2026-05-23 через chrome-devtools MCP.
+     Под её tracking-domain `track.yrsdfy.space` (захардкожен внутри). Для другого домена -
+     поменять `c="https://track.yrsdfy.space"` на нужный.
+     Скрипт сам подсасывает cftmid/cpid из URL ленда (CF подкидывает при редиректе с campaign URL).
+     {{__CONTAINER_ID__}} / {{__CAMPAIGN_ID__}} - литеральные fallback'и, не подменять. -->
+<script>!function(){"use strict";var n="lp_ref",t="cpid",e="lpurl",c="https://track.yrsdfy.space",r="(?<domain>http(?:s?)://[^/]*)".concat("/cf/click"),a="(?:(?:/(?<cta>[1-9][0-9]*)/?)|(?:/))?",i="^".concat(r).concat(a).concat("(?:$|(\\?.*))"),o='javascript:window.clickflare.l="(?<original_link>'.concat(r).concat(a,'("|(\\?[^"]*"))).*'),s=function(){return new RegExp(i,"")},u=function(){return new RegExp(o,"")};function l(n){var t=function(n){return n.replace(s(),(function(n){for(var t=[],e=1;e<arguments.length;e++)t[e-1]=arguments[e];var r=t[t.length-1].domain;return n.replace(r,c)}))}(n);return'javascript:window.clickflare.l="'.concat(t,'"; void 0;')}function d(n,t){if(t&&n&&t.apply(document,[n]),/loaded|interactive|complete/.test(document.readyState))for(var e=0,c=document.links.length;e<c;e++)if(s().test(document.links[e].href)){var r=document.links[e];window.clickflare.links_replaced.has(r)||(r.href=l(r.href),window.clickflare.links_replaced.add(r))}}var f,h,m,p;!function(r,a){var i=document.onreadystatechange;window.clickflare||(window.clickflare={listeners:{},customParams:{},links_replaced:new Set,addEventListener:function(n,t){var e=this.listeners[n]||[];e.includes(t)||e.push(t),this.listeners[n]=e},dispatchEvent:function(n,t){t&&(this.customParams[n]=t),(this.listeners[n]||[]).forEach((function(n){return n(t)}))},push:function(n,t){t&&(this.customParams[n]=t),(this.listeners[n]||[]).forEach((function(n){return n(t)}))}},document.onreadystatechange=function(n){return d(n,i)},d(null,i),setTimeout((function(){!function(r,a){var i,o=function(r,a){var i=new URL("".concat(c).concat(r)),o="{",s=o+o;a.startsWith(s)||i.searchParams.set(t,a);return i.searchParams.append(n,document.referrer),i.searchParams.append(e,location.href),i.searchParams.append("lpt",document.title),i.searchParams.append("t",(new Date).getTime().toString()),i.toString()}(r,a),s=document.createElement("script"),l=document.scripts[0];s.async=1,s.src=o,s.onerror=function(){!function(){for(var n=function(n,t){var e=document.links[n];u().test(decodeURI(e.href))&&setTimeout((function(){e&&e.setAttribute("href",function(n){var t=n.match(u());if(t){var e=(t.groups||{}).original_link;return e?e.slice(0,-1):n}return n}(decodeURI(e.href)))}))},t=0,e=document.links.length;t<e;t++)n(t)}()},null===(i=l.parentNode)||void 0===i||i.insertBefore(s,l)}(r,a)})))}("".concat("/cf/tags","/").concat(new URL(window.location.href).searchParams.get("cftmid")||"{{__CONTAINER_ID__}}"),(m=new URL(window.location.href).searchParams.get(t),f=new RegExp("(^| )".concat("cf_cpid","=([^;]+)")),p=(h=document.cookie.match(f))&&h.pop()||null,m||p||"{{__CAMPAIGN_ID__}}"))}();</script>
+</body>
+</html>
