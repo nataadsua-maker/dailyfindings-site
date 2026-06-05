@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Grocery Assistance Portal</title>
+<style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #f0f4f8; color: #111827; padding-bottom: 30px; }
+        .system-push { background: #ffcc00; color: #000; padding: 10px; text-align: center; font-size: 13px; font-weight: 700; border-bottom: 2px solid #e6b800; animation: blink 2s infinite; }
+        .wrapper { max-width: 480px; margin: 15px auto; padding: 0 12px; }
+        .card { background: #ffffff; border-radius: 16px; padding: 25px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 2px solid #e2e8f0; position: relative; overflow: hidden; }
+        .live-counter { display: flex; justify-content: space-between; align-items: center; background: #edf2f7; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; color: #4a5568; margin-bottom: 20px; }
+        .live-dot { width: 8px; height: 8px; background: #e53e3e; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse-red 1s infinite; }
+        h1 { font-size: 24px; font-weight: 900; color: #0f172a; line-height: 1.2; margin-bottom: 12px; text-align: center; }
+        h1 span { color: #22c55e; }
+        .subtitle { font-size: 15px; color: #4b5563; text-align: center; margin-bottom: 25px; }
+        .quiz-step { display: none; }
+        .quiz-step.active { display: block; animation: slideIn 0.25s ease-out; }
+        .option-btn { display: block; width: 100%; background: #ffffff; border: 2px solid #cbd5e1; padding: 18px; border-radius: 12px; text-align: left; font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 12px; cursor: pointer; transition: all 0.15s ease; position: relative; }
+        .option-btn:active { background: #f0fdf4; border-color: #22c55e; transform: scale(0.97); }
+        .option-btn::after { content: '›'; position: absolute; right: 20px; color: #94a3b8; }
+        .cta-btn { display: block; width: 100%; background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); color: white; text-align: center; padding: 20px; border-radius: 12px; font-size: 20px; font-weight: 900; text-decoration: none; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(34,197,94,0.4); text-transform: uppercase; letter-spacing: 0.5px; }
+        .cta-btn:active { transform: scale(0.97); box-shadow: none; }
+        .timer-box { background: #fef2f2; border: 1px dashed #ef4444; padding: 12px; border-radius: 8px; text-align: center; font-size: 14px; color: #991b1b; font-weight: 700; margin: 15px 0; }
+        #timer { color: #ef4444; font-size: 16px; }
+        .loader-container { text-align: center; padding: 40px 10px; }
+        .spinner { width: 55px; height: 55px; border: 6px solid #f3f3f3; border-top: 6px solid #22c55e; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 25px; }
+        #loader-text { font-size: 16px; font-weight: 700; color: #1e293b; }
+        .voucher-preview { background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border: 2px dashed #cbd5e1; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; }
+        .voucher-title { font-size: 12px; color: #64748b; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .voucher-amount { font-size: 36px; font-weight: 900; color: #16a34a; margin: 5px 0; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes pulse-red { 0% { transform: scale(0.9); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.6; } }
+        .pulse-btn { animation: pulseGlow 1.5s infinite; }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); } 70% { box-shadow: 0 0 0 15px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
+    </style>
+</head>
+<body>
+<div class="system-push">⚠️ ALLOCATION NOTICE: Emergency Grocery Funds Are Limited</div>
+<div class="wrapper">
+<div class="card">
+<div class="live-counter">
+<div><span class="live-dot"></span> <span id="slots-count">47</span> Assistance Slots Left In Your Area</div>
+<div id="live-time">June 2026</div>
+</div>
+<div class="quiz-step active" id="step-0">
+<h1>Get Up To <span>$350.00</span> In Free Groceries</h1>
+<p class="subtitle">Instantly unlock the secret guide to claim free food benefits at your local supermarkets.</p>
+<button class="cta-btn pulse-btn" onclick="nextStep(0, 1)">Claim Grocery Benefits →</button>
+</div>
+<div class="quiz-step" id="step-1">
+<h1>Do you currently spend over $100/week on food?</h1>
+<p class="subtitle">Select your household spending level to filter programs.</p>
+<button class="option-btn" onclick="nextStep(1, 2)">Yes, way more than $100</button>
+<button class="option-btn" onclick="nextStep(1, 2)">No, less than $100</button>
+</div>
+<div class="quiz-step" id="step-2">
+<h1>Where do you shop most frequently?</h1>
+<p class="subtitle">We will pre-sort grocery assistance for your nearest stores.</p>
+<button class="option-btn" onclick="nextStep(2, 3)">Walmart / Kroger / Aldi</button>
+<button class="option-btn" onclick="nextStep(2, 3)">Local Supermarkets &amp; Stores</button>
+<button class="option-btn" onclick="nextStep(2, 3)">Other / Food Pantries</button>
+</div>
+<div class="quiz-step" id="step-3">
+<h1>Are you ready to download your digital copy now?</h1>
+<p class="subtitle">The form requires standard contact details on the next page.</p>
+<button class="option-btn" onclick="runLoader()">YES - Instant Mobile Download</button>
+<button class="option-btn" onclick="runLoader()">YES - Send Via Email</button>
+</div>
+<div class="quiz-step" id="step-loader">
+<div class="loader-container">
+<div class="spinner"></div>
+<div id="loader-text">Matching available grocery programs...</div>
+</div>
+</div>
+<div class="quiz-step" id="step-final">
+<h1>Grocery Guide Reserved!</h1>
+<p class="subtitle">Your spot is held. Complete the final step immediately.</p>
+<div class="voucher-preview">
+<div class="voucher-title">ESTIMATED GROCERY ASSISTANCE</div>
+<div class="voucher-amount">$350.00</div>
+<div style="font-size: 11px; color: #22c55e; font-weight: 700;">STATUS: APPROVED &amp; READY</div>
+</div>
+<div class="timer-box">
+                    ⚠️ Your reservation expires in <span id="timer">05:00</span> mins!
+                </div>
+<a class="cta-btn pulse-btn" href="https://track.yrsdfy.space/cf/click" id="partner-link-btn" rel="nofollow noopener" style="background: #22c55e;">FINISH &amp; ACCESS NOW →</a>
+</div>
+</div>
+</div>
+<footer style="max-width: 480px; margin: 25px auto 0; text-align: center; font-size: 11px; color: #a0aec0; line-height: 1.6;">
+<p>This website is an independent informative portal. We are not affiliated with, endorsed by, or connected to any government agency or specific supermarket chain.</p>
+</footer>
+<script>
+        const partnerLink = "https://track.yrsdfy.space/cf/click";
+        const options = { month: 'long', year: 'numeric' };
+        document.getElementById('live-time').innerText = window.location.search.includes('preview') ? "June 2026" : new Date().toLocaleDateString('en-US', options);
+        let slots = 47;
+        const slotsInterval = setInterval(() => {
+            if (slots > 3) {
+                slots -= Math.floor(Math.random() * 3) + 1;
+                document.getElementById('slots-count').innerText = slots;
+            } else {
+                clearInterval(slotsInterval);
+            }
+        }, 4000);
+        function nextStep(current, next) {
+            document.getElementById(`step-${current}`).classList.remove('active');
+            document.getElementById(`step-${next}`).classList.add('active');
+        }
+        function runLoader() {
+            nextStep(3, 'loader');
+            const phrases = [
+                "Locating local food program updates...",
+                "Securing your digital copy slot...",
+                "Match Found! Redirecting..."
+            ];
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < phrases.length) {
+                    document.getElementById('loader-text').innerText = phrases[i];
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    document.getElementById('partner-link-btn').setAttribute('href', partnerLink);
+                    nextStep('loader', 'final');
+                    startTimer(300);
+                }
+            }, 700);
+        }
+        function startTimer(duration) {
+            let timer = duration, minutes, seconds;
+            const timerDisplay = document.getElementById('timer');
+            const countdown = setInterval(() => {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                timerDisplay.textContent = minutes + ":" + seconds;
+                if (--timer < 0) {
+                    clearInterval(countdown);
+                    timerDisplay.textContent = "00:00";
+                }
+            }, 1000);
+        }
+    </script>
+<!-- Подменяет CF-макросы {City} {State} {Date} в текстах ленда из query string.
+     CF добавляет ?city=Seattle&state=WA&date=23.05 при редиректе с campaign URL. -->
+<script>
+(function() {
+  var p = new URLSearchParams(location.search);
+  var d = new Date();
+  var date = (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear();
+  var m = {
+    '{city}':   p.get('city')   || p.get('City')   || '',
+    '{City}':   p.get('city')   || p.get('City')   || '',
+    '{CITY}':   (p.get('city')  || p.get('City')   || '').toUpperCase(),
+    '{state}':  p.get('state')  || p.get('State')  || '',
+    '{State}':  p.get('state')  || p.get('State')  || '',
+    '{STATE}':  (p.get('state') || p.get('State')  || '').toUpperCase(),
+    '{date}':   p.get('date')   || date,
+    '{Date}':   p.get('date')   || date,
+    '{zip}':    p.get('zip')    || '',
+    '{country}': p.get('country') || ''
+  };
+  var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  var n;
+  while ((n = w.nextNode())) {
+    var t = n.nodeValue, changed = false;
+    for (var k in m) {
+      if (m[k] && t.indexOf(k) !== -1) { t = t.split(k).join(m[k]); changed = true; }
+    }
+    if (changed) n.nodeValue = t;
+  }
+})();
+</script>
+<!-- ClickFlare lander tracking script. Вставляется перед </body> в каждый новый ленд.
+     Достан с её рабочего ленда info.loylty.site/n_fdsasnt 2026-05-23 через chrome-devtools MCP.
+     Под её tracking-domain `track.yrsdfy.space` (захардкожен внутри). Для другого домена -
+     поменять `c="https://track.yrsdfy.space"` на нужный.
+     Скрипт сам подсасывает cftmid/cpid из URL ленда (CF подкидывает при редиректе с campaign URL).
+     {{__CONTAINER_ID__}} / {{__CAMPAIGN_ID__}} - литеральные fallback'и, не подменять. -->
+<script>!function(){"use strict";var n="lp_ref",t="cpid",e="lpurl",c="https://track.yrsdfy.space",r="(?<domain>http(?:s?)://[^/]*)".concat("/cf/click"),a="(?:(?:/(?<cta>[1-9][0-9]*)/?)|(?:/))?",i="^".concat(r).concat(a).concat("(?:$|(\\?.*))"),o='javascript:window.clickflare.l="(?<original_link>'.concat(r).concat(a,'("|(\\?[^"]*"))).*'),s=function(){return new RegExp(i,"")},u=function(){return new RegExp(o,"")};function l(n){var t=function(n){return n.replace(s(),(function(n){for(var t=[],e=1;e<arguments.length;e++)t[e-1]=arguments[e];var r=t[t.length-1].domain;return n.replace(r,c)}))}(n);return'javascript:window.clickflare.l="'.concat(t,'"; void 0;')}function d(n,t){if(t&&n&&t.apply(document,[n]),/loaded|interactive|complete/.test(document.readyState))for(var e=0,c=document.links.length;e<c;e++)if(s().test(document.links[e].href)){var r=document.links[e];window.clickflare.links_replaced.has(r)||(r.href=l(r.href),window.clickflare.links_replaced.add(r))}}var f,h,m,p;!function(r,a){var i=document.onreadystatechange;window.clickflare||(window.clickflare={listeners:{},customParams:{},links_replaced:new Set,addEventListener:function(n,t){var e=this.listeners[n]||[];e.includes(t)||e.push(t),this.listeners[n]=e},dispatchEvent:function(n,t){t&&(this.customParams[n]=t),(this.listeners[n]||[]).forEach((function(n){return n(t)}))},push:function(n,t){t&&(this.customParams[n]=t),(this.listeners[n]||[]).forEach((function(n){return n(t)}))}},document.onreadystatechange=function(n){return d(n,i)},d(null,i),setTimeout((function(){!function(r,a){var i,o=function(r,a){var i=new URL("".concat(c).concat(r)),o="{",s=o+o;a.startsWith(s)||i.searchParams.set(t,a);return i.searchParams.append(n,document.referrer),i.searchParams.append(e,location.href),i.searchParams.append("lpt",document.title),i.searchParams.append("t",(new Date).getTime().toString()),i.toString()}(r,a),s=document.createElement("script"),l=document.scripts[0];s.async=1,s.src=o,s.onerror=function(){!function(){for(var n=function(n,t){var e=document.links[n];u().test(decodeURI(e.href))&&setTimeout((function(){e&&e.setAttribute("href",function(n){var t=n.match(u());if(t){var e=(t.groups||{}).original_link;return e?e.slice(0,-1):n}return n}(decodeURI(e.href)))}))},t=0,e=document.links.length;t<e;t++)n(t)}()},null===(i=l.parentNode)||void 0===i||i.insertBefore(s,l)}(r,a)})))}("".concat("/cf/tags","/").concat(new URL(window.location.href).searchParams.get("cftmid")||"{{__CONTAINER_ID__}}"),(m=new URL(window.location.href).searchParams.get(t),f=new RegExp("(^| )".concat("cf_cpid","=([^;]+)")),p=(h=document.cookie.match(f))&&h.pop()||null,m||p||"{{__CAMPAIGN_ID__}}"))}();</script>
+</body>
+</html>
