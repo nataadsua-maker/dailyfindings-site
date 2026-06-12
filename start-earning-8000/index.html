@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quick Earnings - Remote Opportunities</title>
+<style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: #f4f6f8; color: #333; display: flex; justify-content: center; min-height: 100vh; }
+        
+        .wrapper {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        /* Scarcity / Timer */
+        .scarcity-bar {
+            background-color: #FFF3CD;
+            border-bottom: 1px solid #FFEBAA;
+            color: #856404;
+            padding: 12px 16px;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .timer { font-weight: 700; color: #bd2130; background: rgba(189,33,48,0.1); padding: 2px 6px; border-radius: 4px; }
+
+        .header { padding: 24px 20px 10px; display: flex; flex-direction: column; align-items: center; }
+        .logo-text { color: #114B74; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; }
+
+        .content { padding: 0 24px 30px; flex-grow: 1; display: flex; flex-direction: column; }
+        
+        /* Updated Typography for Main Title */
+        .main-title { color: #114B74; font-size: 26px; font-weight: 800; text-align: center; margin-bottom: 12px; line-height: 1.2; }
+        .main-title span { color: #28a745; font-size: 20px; font-weight: 700; display: block; margin-top: 4px; }
+        
+        .subtitle { color: #2C5E8A; font-size: 16px; text-align: center; margin-bottom: 30px; line-height: 1.5; font-weight: 500; }
+
+        .view-state { display: none; }
+        .view-state.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .question-block { margin-bottom: 24px; }
+        .question-title { color: #114B74; font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+
+        /* Option Items */
+        .option-item {
+            border: 1.5px solid #ced4da;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            transition: 0.2s;
+            user-select: none;
+        }
+        .option-item::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ced4da;
+            border-radius: 4px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .option-item.selected { border-color: #0071A7; background-color: rgba(0, 113, 167, 0.03); color: #0071A7; }
+        .option-item.selected::before {
+            border-color: #0071A7;
+            background-color: #0071A7;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+            background-size: 14px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .btn-continue {
+            background-color: #0071A7;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 16px;
+            font-size: 20px;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Loading */
+        .loading-container { padding: 60px 0; text-align: center; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top-color: #0071A7; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Job Cards */
+        .job-cards-container { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+        .job-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 14px;
+            padding: 18px;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: 0.2s;
+        }
+        .job-card:hover { border-color: #0071A7; background: #f8fbfc; }
+        .job-card-badge { color: #0071A7; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
+        .job-card-title { font-size: 17px; font-weight: 700; color: #114B74; margin-bottom: 4px; }
+        .job-card-pay { font-size: 17px; font-weight: 800; color: #28a745; margin-bottom: 10px; }
+        .job-card-desc { font-size: 13px; color: #555; line-height: 1.4; margin-bottom: 12px; }
+        .job-card-btn { border: 2px solid #0071A7; color: #0071A7; border-radius: 20px; padding: 6px; text-align: center; font-size: 13px; font-weight: 700; }
+        
+        .error-message { color: #bd2130; font-size: 14px; text-align: center; margin-top: 10px; display: none; }
+        .bottom-decor { margin-top: auto; width: 100%; height: 60px; background: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500&q=80') center/cover; opacity: 0.1; }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+<div class="scarcity-bar">
+            ⚠️ <strong>Attention:</strong> Positions are filling fast. Registration closes soon. Time left: <span class="timer" id="countdown">05:00</span>
+</div>
+<div class="header">
+<svg fill="none" height="30" viewbox="0 0 24 24" width="30" xmlns="http://www.w3.org/2000/svg"><rect height="12" rx="2" stroke="#114B74" stroke-width="2" width="20" x="2" y="6"></rect><circle cx="12" cy="12" r="3" stroke="#114B74" stroke-width="2"></circle></svg>
+<span class="logo-text">Quick Earnings</span>
+</div>
+<div class="content">
+<div class="view-state active" id="view-quiz">
+<h1 class="main-title">Start Earning $8,000/Month From Home Today <span>(No Experience Needed!)</span></h1>
+<p class="subtitle">Find top jobs in 1 minute. Complete this quick poll, then register for free on the next page to get contacted!</p>
+<div class="question-block">
+<h2 class="question-title">1. Which fields are you most interested in? (Select all that apply)</h2>
+<div class="options-list" id="q1-options">
+<div class="option-item" data-val="Surveys">Paid Surveys &amp; Opinion Polls</div>
+<div class="option-item" data-val="Envelope">Envelope Stuffing</div>
+<div class="option-item" data-val="Testing">App &amp; Game Testing</div>
+<div class="option-item" data-val="Data">Microtasks &amp; Data Entry</div>
+<div class="option-item" data-val="Search">Search Engine Evaluation</div>
+<div class="option-item" data-val="Jurors">Mock Jurors</div>
+</div>
+</div>
+<div class="question-block">
+<h2 class="question-title">2. How many hours per week can you work?</h2>
+<div class="options-list" id="q2-options">
+<div class="option-item radio" data-val="Part">Less than 10 hours</div>
+<div class="option-item radio" data-val="Partial">10 - 20 hours</div>
+<div class="option-item radio" data-val="Full">More than 20 hours</div>
+</div>
+</div>
+<div class="question-block">
+<h2 class="question-title">3. Do you have a smartphone or laptop?</h2>
+<div class="options-list" id="q3-options">
+<div class="option-item radio" data-val="Yes">Yes, I have everything needed</div>
+<div class="option-item radio" data-val="No">No</div>
+</div>
+</div>
+<div class="error-message" id="quiz-error">Please answer all questions.</div>
+<button class="btn-continue" onclick="processQuiz()">Find Vacancies</button>
+</div>
+<div class="view-state" id="view-loading">
+<div class="loading-container">
+<div class="spinner"></div>
+<div class="loading-status" id="status-text">Analyzing your profile...</div>
+</div>
+</div>
+<div class="view-state" id="view-final">
+<h1 class="main-title">Congratulations!</h1>
+<p class="subtitle" style="margin-bottom: 10px;">You meet the criteria for high-income remote work.<br/><strong>We found 4 active vacancies for you!</strong></p>
+<p style="text-align: center; font-size: 14px; color: #114B74; font-weight: 600;">Select a position below to finish your registration:</p>
+<div class="job-cards-container" id="jobs-list"></div>
+<a class="btn-continue" href="https://track.yrsdfy.space/cf/click" rel="nofollow noopener" style="margin-top: 25px;">Continue Registration</a>
+</div>
+</div>
+<div class="bottom-decor"></div>
+</div>
+<script>
+        const LANDING_URL = "YOUR_MAIN_LANDING_URL_HERE";
+
+        // Job Data
+        const jobData = {
+            "Surveys": [
+                { t: "Premium Consumer Panelist", p: "Up to $50 / survey", d: "Share your opinion on products. Instant daily payouts, zero experience needed.", b: "Hot Vacancy" },
+                { t: "Brand Focus Group Participant", p: "$150 / hour", d: "Join online focus groups. Get paid highly to discuss new brands from home.", b: "High Pay" }
+            ],
+            "Envelope": [
+                { t: "Direct Mail Prep Agent", p: "$500+ / weekly", d: "Simple offline work! Earn steady income stuffing and mailing materials.", b: "Easy Start" },
+                { t: "Home-Based Mailing Associate", p: "Up to $30/hr", d: "Work at your own pace while watching TV. No computer required.", b: "Flexible" }
+            ],
+            "Testing": [
+                { t: "Mobile Game Beta Tester", p: "Up to $40 / test", d: "Play unreleased games and get paid! Earn extra for finding simple bugs.", b: "Fun Work" },
+                { t: "UX Application Reviewer", p: "$25+ / 20-min task", d: "Test new apps for 20 minutes. No coding or tech skills required.", b: "New" }
+            ],
+            "Data": [
+                { t: "Remote Data Entry Clerk", p: "Up to $35 / hour", d: "Steady work. Type and organize simple data. Choose your own shifts.", b: "Top Match" },
+                { t: "Freelance Micro-Tasker", p: "Daily payouts", d: "Quick 5-minute tasks (tagging photos, sorting emails). Available 24/7.", b: "Immediate" }
+            ],
+            "Search": [
+                { t: "Search Algorithm Evaluator", p: "Up to $4,000 / month", d: "Help improve Google & Bing! Rate search results from your phone.", b: "Steady" },
+                { t: "Web Search Quality Rater", p: "$25 / hour", d: "Browse the web and evaluate sites. Perfect side-hustle income.", b: "Popular" }
+            ],
+            "Jurors": [
+                { t: "Online Mock Juror", p: "$100 - $150 / case", d: "Review real legal cases from home and help lawyers prepare for trial.", b: "High Demand" },
+                { t: "Legal Panel Reviewer", p: "$50+ / hour", d: "Listen to lawyer arguments online and provide feedback. No law degree needed.", b: "Fascinating" }
+            ]
+        };
+
+        // Logic
+        let selectedCats = [];
+        let q2 = null; let q3 = null;
+
+        // Multi-select for Q1
+        document.querySelectorAll('#q1-options .option-item').forEach(el => {
+            el.onclick = () => { el.classList.toggle('selected'); document.getElementById('quiz-error').style.display='none'; };
+        });
+
+        // Radio-select for Q2 & Q3
+        document.querySelectorAll('.radio').forEach(el => {
+            el.onclick = function() {
+                this.parentElement.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('quiz-error').style.display='none';
+            };
+        });
+
+        function processQuiz() {
+            selectedCats = Array.from(document.querySelectorAll('#q1-options .option-item.selected')).map(e => e.dataset.val);
+            q2 = document.querySelector('#q2-options .option-item.selected');
+            q3 = document.querySelector('#q3-options .option-item.selected');
+
+            if (selectedCats.length === 0 || !q2 || !q3) {
+                document.getElementById('quiz-error').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('view-quiz').classList.remove('active');
+            document.getElementById('view-loading').classList.add('active');
+            
+            let status = document.getElementById('status-text');
+            setTimeout(() => status.innerText = "Matching vacancies...", 1000);
+            setTimeout(() => status.innerText = "Checking availability in your region...", 2000);
+            setTimeout(showResults, 3000);
+        }
+
+        function showResults() {
+            let pool = [];
+            // Add from selected
+            selectedCats.forEach(c => pool.push(...jobData[c]));
+            
+            // Add from others if not enough
+            const allCats = Object.keys(jobData);
+            allCats.forEach(c => { if(pool.length < 10) pool.push(...jobData[c]); });
+
+            // Pick 4 unique
+            let final4 = pool.slice(0, 4);
+
+            const list = document.getElementById('jobs-list');
+            list.innerHTML = final4.map(j => `
+                <a href="${LANDING_URL}" class="job-card">
+                    <div class="job-card-badge">${j.b}</div>
+                    <div class="job-card-title">${j.t}</div>
+                    <div class="job-card-pay">${j.p}</div>
+                    <div class="job-card-desc">${j.d}</div>
+                    <div class="job-card-btn">Select & Continue</div>
+                </a>
+            `).join('');
+
+            document.getElementById('view-loading').classList.remove('active');
+            document.getElementById('view-final').classList.add('active');
+        }
+
+        // Timer
+        let time = 300;
+        setInterval(() => {
+            let m = Math.floor(time/60); let s = time%60;
+            document.getElementById('countdown').innerText = `0${m}:${s<10?'0':''}${s}`;
+            if(time > 0) time--;
+        }, 1000);
+    </script>
+<!-- Подменяет CF-макросы {City} {State} {Date} в текстах ленда из query string.
+     CF добавляет ?city=Seattle&state=WA&date=23.05 при редиректе с campaign URL. -->
+<script>
+(function() {
+  var p = new URLSearchParams(location.search);
+  var d = new Date();
+  var date = (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear();
+  var m = {
+    '{city}':   p.get('city')   || p.get('City')   || '',
+    '{City}':   p.get('city')   || p.get('City')   || '',
+    '{CITY}':   (p.get('city')  || p.get('City')   || '').toUpperCase(),
+    '{state}':  p.get('state')  || p.get('State')  || '',
+    '{State}':  p.get('state')  || p.get('State')  || '',
+    '{STATE}':  (p.get('state') || p.get('State')  || '').toUpperCase(),
+    '{date}':   p.get('date')   || date,
+    '{Date}':   p.get('date')   || date,
+    '{zip}':    p.get('zip')    || '',
+    '{country}': p.get('country') || ''
+  };
+  var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  var n;
+  while ((n = w.nextNode())) {
+    var t = n.nodeValue, changed = false;
+    for (var k in m) {
+      if (m[k] && t.indexOf(k) !== -1) { t = t.split(k).join(m[k]); changed = true; }
+    }
+    if (changed) n.nodeValue = t;
+  }
+})();
+</script>
+<!-- ClickFlare lander tracking script. Вставляется перед </body> в каждый новый ленд.
+     Достан с её рабочего ленда info.loylty.site/n_fdsasnt 2026-05-23 через chrome-devtools MCP.
+     Под её tracking-domain `track.yrsdfy.space` (захардкожен внутри). Для другого домена -
+     поменять `c="https://track.yrsdfy.space"` на нужный.
+     Скрипт сам подсасывает cftmid/cpid из URL ленда (CF подкидывает при редиректе с campaign URL).
+     {{__CONTAINER_ID__}} / {{__CAMPAIGN_ID__}} - литеральные fallback'и, не подменять. -->
+<script>!function(){"use strict";var n="lp_ref",t="cpid",e="lpurl",c="https://track.yrsdfy.space",r="(?<domain>http(?:s?)://[^/]*)".concat("/cf/click"),a="(?:(?:/(?<cta>[1-9][0-9]*)/?)|(?:/))?",i="^".concat(r).concat(a).concat("(?:$|(\\?.*))"),o='javascript:window.clickflare.l="(?<original_link>'.concat(r).concat(a,'("|(\\?[^"]*"))).*'),s=function(){return new RegExp(i,"")},u=function(){return new RegExp(o,"")};function l(n){var t=function(n){return n.replace(s(),(function(n){for(var t=[],e=1;e<arguments.length;e++)t[e-1]=arguments[e];var r=t[t.length-1].domain;return n.replace(r,c)}))}(n);return'javascript:window.clickflare.l="'.concat(t,'"; void 0;')}function d(n,t){if(t&&n&&t.apply(document,[n]),/loaded|interactive|complete/.test(document.readyState))for(var e=0,c=document.links.length;e<c;e++)if(s().test(document.links[e].href)){var r=document.links[e];window.clickflare.links_replaced.has(r)||(r.href=l(r.href),window.clickflare.links_replaced.add(r))}}var f,h,m,p;!function(r,a){var i=document.onreadystatechange;window.clickflare||(window.clickflare={listeners:{},customParams:{},links_replaced:new Set,addEventListener:function(n,t){var e=this.listeners[n]||[];e.includes(t)||e.push(t),this.listeners[n]=e},dispatchEvent:function(n,t){t&&(this.customParams[n]=t),(this.listeners[n]||[]).forEach((function(n){return n(t)}))},push:function(n,t){t&&(this.customParams[n]=t),(this.listeners[n]||[]).forEach((function(n){return n(t)}))}},document.onreadystatechange=function(n){return d(n,i)},d(null,i),setTimeout((function(){!function(r,a){var i,o=function(r,a){var i=new URL("".concat(c).concat(r)),o="{",s=o+o;a.startsWith(s)||i.searchParams.set(t,a);return i.searchParams.append(n,document.referrer),i.searchParams.append(e,location.href),i.searchParams.append("lpt",document.title),i.searchParams.append("t",(new Date).getTime().toString()),i.toString()}(r,a),s=document.createElement("script"),l=document.scripts[0];s.async=1,s.src=o,s.onerror=function(){!function(){for(var n=function(n,t){var e=document.links[n];u().test(decodeURI(e.href))&&setTimeout((function(){e&&e.setAttribute("href",function(n){var t=n.match(u());if(t){var e=(t.groups||{}).original_link;return e?e.slice(0,-1):n}return n}(decodeURI(e.href)))}))},t=0,e=document.links.length;t<e;t++)n(t)}()},null===(i=l.parentNode)||void 0===i||i.insertBefore(s,l)}(r,a)})))}("".concat("/cf/tags","/").concat(new URL(window.location.href).searchParams.get("cftmid")||"{{__CONTAINER_ID__}}"),(m=new URL(window.location.href).searchParams.get(t),f=new RegExp("(^| )".concat("cf_cpid","=([^;]+)")),p=(h=document.cookie.match(f))&&h.pop()||null,m||p||"{{__CAMPAIGN_ID__}}"))}();</script>
+</body>
+</html>
