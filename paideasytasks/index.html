@@ -1269,19 +1269,6 @@ body.is-jump-page .footer { margin-top: 0; }
 </div>
 <script>
   (function () {
-    try {
-      var qs = new URLSearchParams(window.location.search);
-      if (!qs.get('pub') || !qs.get('c1')) {
-        document.querySelectorAll('.lp .lp__cta, .lp__cta, .lp__final-cta, .lp__sticky a, [data-cta]').forEach(function (el) {
-          el.setAttribute('aria-disabled', 'true');
-          el.classList.add('lp__cta--disabled');
-          el.removeAttribute('href');
-          el.style.opacity = '0.6';
-          el.style.pointerEvents = 'none';
-        });
-      }
-    } catch (e) {}
-
     var sticky = document.querySelector('.lp__sticky, .lp__cta--sticky, [data-cta="sticky"]');
     if (!sticky || !('IntersectionObserver' in window)) return;
 
