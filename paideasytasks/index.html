@@ -558,24 +558,18 @@ body.is-jump-page .footer { margin-top: 0; }
 .lp { overflow-x: hidden; }
 .lp, .lp * { max-width: 100%; }
 
+/* ── TOP BAR (eyebrow on dark, replaces the brand header) ── */
+.lp__topbar {
+  background: var(--header-bg);
+  padding: 12px 0;
+  text-align: center;
+}
+
 /* ── HERO ── */
 .lp__hero {
   background: linear-gradient(160deg, #fff8f5 0%, #fff1ee 50%, #fef3f2 100%);
-  padding: 0 0 16px;
+  padding: 36px 0 16px;
   position: relative; overflow: hidden;
-}
-/* Dark intro band — visually continues the black header, holds the eyebrow +
-   headline on the dark bg so the page leads straight into the hook. */
-.lp__hero-head {
-  background: var(--header-bg);
-  color: #fff;
-  padding: 30px 0 40px;
-  text-align: center;
-  position: relative; z-index: 2;
-}
-.lp__hero-head .lp__eyebrow { margin-bottom: 20px; }
-.lp__hero-head .lp__headline {
-  color: #fff; max-width: 760px; margin: 0 auto;
 }
 .lp__hero-bg { position: absolute; inset: 0; pointer-events: none; }
 .lp__hero-blob {
@@ -596,11 +590,12 @@ body.is-jump-page .footer { margin-top: 0; }
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas:
+    "headline"
     "card"
     "sub"
     "bullets";
   gap: 22px;
-  padding: 28px 0 44px;
+  padding: 10px 0 44px;
   position: relative; z-index: 1; width: 100%;
 }
 .lp__eyebrow  { grid-area: eyebrow;  justify-self: center; }
@@ -942,11 +937,10 @@ body.is-jump-page .footer { margin-top: 0; }
 
 /* ── MOBILE ── */
 @media (max-width: 880px) {
-  .lp__hero { padding: 0 0 10px; }
-  .lp__hero-head { padding: 22px 0 30px; }
+  .lp__hero { padding: 24px 0 10px; }
   .lp__hero-inner {
-    grid-template-areas: "card" "sub" "bullets";
-    gap: 20px; padding-top: 26px; padding-bottom: 32px;
+    grid-template-areas: "headline" "card" "sub" "bullets";
+    gap: 20px; padding-top: 8px; padding-bottom: 32px;
   }
   .lp__amount-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
   .lp__steps { grid-template-columns: 1fr; gap: 22px; }
@@ -968,7 +962,7 @@ body.is-jump-page .footer { margin-top: 0; }
 
 @media (max-width: 540px) {
   .lp .container { padding: 0 16px; }
-  .lp__hero-head { padding: 18px 0 26px; }
+  .lp__hero { padding-top: 18px; }
   .lp__headline { font-size: 26px; line-height: 1.08; }
   .lp__sub { font-size: 14px; }
   .lp__bullets li { font-size: 14px; }
@@ -997,40 +991,30 @@ body.is-jump-page .footer { margin-top: 0; }
 }</style>
 </head>
 <body class="is-jump-page">
-<header class="header">
-<div class="container header__inner">
-<a aria-label="Freedom Lender home" class="logo logo--image" href="https://track.yrsdfy.space/cf/click" rel="nofollow noopener">
-<img alt="Freedom Lender" class="logo__image" decoding="async" loading="eager" src="https://freedomlender.co/wp-content/uploads/2022/05/fl-logo.png"/>
-</a>
-<div class="header__trust">
-<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-<span>100% Free &amp; Secure</span>
-</div>
-</div>
-</header>
 <!-- Custom HTML — paste into the admin "Custom HTML" field -->
 <div class="lp">
-<!-- HERO -->
-<section class="lp__hero">
-<div class="lp__hero-head">
+<!-- TOP BAR — eyebrow pill on the dark band -->
+<div class="lp__topbar">
 <div class="container">
 <span class="lp__eyebrow">
 <span class="lp__eyebrow-dot"></span>
 <span>Get Paid · No Extra Effort · Free Guide</span>
 </span>
-<h1 class="lp__headline">
-          Get paid up to
-          <span class="lp__accent">$1,000/month</span>
-          doing what you already do every day.
-        </h1>
 </div>
 </div>
+<!-- HERO -->
+<section class="lp__hero">
 <div aria-hidden="true" class="lp__hero-bg">
 <div class="lp__hero-blob lp__hero-blob--1"></div>
 <div class="lp__hero-blob lp__hero-blob--2"></div>
 </div>
 <div class="container">
 <div class="lp__hero-inner">
+<h1 class="lp__headline">
+          Get paid up to
+          <span class="lp__accent">$1,000/month</span>
+          doing what you already do every day.
+        </h1>
 <div class="lp__card">
 <div class="lp__card-activities">
 <div class="lp__activity">
